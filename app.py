@@ -198,9 +198,34 @@ async def main():
     except Exception as e:
         print(f"❌ Error running bot: {e}")
 
-if __name__ == "__main__":
-    # Apply nest_asyncio for environments that need it
-    nest_asyncio.apply()
+# if __name__ == "__main__":
+#     # Apply nest_asyncio for environments that need it
+#     nest_asyncio.apply()
     
+#     # Run the bot
+#     asyncio.run(main())
+
+
+
+if __name__ == "__main__":
+    # Start dummy Flask server for Render Free Web Service
+    from flask import Flask
+    import threading
+
+    flask_app = Flask(__name__)
+
+    @flask_app.route("/")
+    def index():
+        return "🤖 Telegram bot is running!"
+
+    def run_flask():
+        flask_app.run(host="0.0.0.0", port=8080)
+
+    threading.Thread(target=run_flask).start()
+
+    # Apply asyncio patch (Render needs it sometimes)
+    nest_asyncio.apply()
+
     # Run the bot
     asyncio.run(main())
+
